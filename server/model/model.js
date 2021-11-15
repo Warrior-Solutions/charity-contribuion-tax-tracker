@@ -29,3 +29,17 @@ const { Pool } = require('pg');
   );
  *
  *
+ *
+**/
+
+const myURI = 'postgres://mzwmrclg:XHg58ZPeu-cAJ0APePTIfGYNJSwrg84S@kashin.db.elephantsql.com/mzwmrclg';
+
+
+const db = new Pool({ connectionString: myURI });
+
+module.exports = {
+  query: async (text, params, callback) => {
+    console.log(`🚀🚀 SQL queried with text🚀: ${text} and params🚀: ${params}`);
+    return await db.query(text, params, callback);
+  }
+};
