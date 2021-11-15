@@ -6,7 +6,7 @@ const { Pool } = require('pg');
   _id SERIAL UNIQUE PRIMARY KEY,
   email varchar(255) NOT NULL,
   password varchar(255),
-  oauth_id
+  oauth_id varchar(255)
   );
 
  *CREATE TABLE contributions (
