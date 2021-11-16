@@ -58,7 +58,7 @@ dashboardController.getCurrentYearlyDonations = function (req, res, next) {
 
   const query = {
     params: [userId],
-    text: `SELECT current_amount
+    text: `SELECT current_amount, goal_amount
           FROM yearly_goals
           WHERE user_id = $1 AND year = DATE_PART('YEAR', CURRENT_TIMESTAMP);`
   }
@@ -66,8 +66,8 @@ dashboardController.getCurrentYearlyDonations = function (req, res, next) {
   db.query(query.text, query.params)
     .then((dbRes) => {
       if (dbRes.rows.length >= 1) {
-        res.locals.queryStatus = 'Sucussfully got current yearly donations from DB.';
-        res.locals.currentYearlyDonations = dbRes.rows[0].current_amount;
+        res.locals.queryStatus = 'Sucussfully got yearly donations data from DB.';
+        res.locals.yearlyDonationData = dbRes.rows;
       } else {
         res.locals.queryStatus = 'Unsuccessfully attempt to get current yearly donations from DB.';
       }
@@ -98,17 +98,20 @@ dashboardController.postContribution = function(req, res, next) {
   const query = {
     params: [req.body.userId, req.body.payee, req.body.category, req.body.amount, req.body.memo],
     text: `INSERT INTO contributions (user_id, payee, category, amount, memo) VALUES ($1, $2, $3, $4, $5);
-    UPDATE yearly_goals SET current_amount = (SELECT SUM(amount) AS newSum FROM contributions GROUP BY user_id, year HAVING user_id = $1 AND year = DATE_PART('YEAR', CURRENT_DATE)) WHERE user_id = $1;`
+    UPDATE yearly_goals SET current_amount = (SELECT SUM(amount) AS newSum FROM contributions GROUP BY user_id, year HAVING user_id = $1 AND year = DATE_PART('YEAR', CURRENT_DATE)) WHERE user_id = $1;
+    SELECT current_amount FROM contributions where user_id = $1 AND year = DATE_PART('YEAR');`
   }
 
   db.query(query.text, query.params)
     .then((dbRes) => {
       if (dbRes.rows.length >= 1) {
         res.locals.queryStatus = 'Successfully retrieved updated contribution sum for user in postContribution.';
+        res.locals.updatedContribution = dbRes.rows[0];
       } else {
         console.log('Unsuccessful attempt to insert into contributions or update yearly_goals in dashboardController.postContribution');
         res.locals.queryStatus = 'Unsuccessful attempt to insert into contributions or update yearly_goals in dashboardController.postContribution';
       }
+      return next();
     })
     .catch(() => {
       console.log('Error in dashboardController.postContribution while querying database.');
@@ -200,8 +203,8 @@ dashboardController.getLineGraph = function (req, res, next) => {
  */
 dashboardController.getList = function (req, res, next) => {
   const query = {
-    params: [req.body.userId],
-    text: `SELECT amount, donated_at as date, memo, category FROM contributions WHERE user_id = $1 ORDER BY donated_at DESC LIMIT 10;`
+    params: [req.body.userId, req.body.rowMin, req.body.rowMax],
+    text: `SELECT amount, donated_at as date, memo, category FROM contributions WHERE user_id = $1 ORDER BY donated_at DESC LIMIT 20;`
   }
 
   db.query(query.text, query.params)
@@ -220,6 +223,27 @@ dashboardController.getList = function (req, res, next) => {
         log: 'Error in attempt to retrieve data from DB query in dashboardController.getList',
         status: 500,
         message: 'Error in attempt to retrieve data from DB query in dashboardController.getList'
+      })
+    })
+}
+
+dataController.getMoreListData = function(req, res, next) {
+  const query = {
+    params: [req.body.userId, req.body.index],
+    text: `SELECT amount, donated_at as date, memo, category FROM contributions WHERE user_id = $1 ORDER BY donated_at DESC LIMIT $2;`
+  }
+
+  db.query(query.text, query.params)
+    .then((dbRes) => {
+      res.locals.moreListData = dbRes.rows;
+      return next();
+    })
+    .catch(() => {
+      console.log('Error in dataController.getMoreListData');
+      return next({
+        log: 'Error in dataController.getMoreListData',
+        status: 500,
+        message: 'Error in dataController.getMoreListData'
       })
     })
 }
