@@ -3,13 +3,15 @@ import { Switch, Route } from 'react-router-dom';
 
 const StatsContainer = (props) => {
   return (
-    <div className="StatsContainer">
-      <main>
-        <button>StatsContainer</button>
-      </main>
+    <div className="statsContainer">
+      <div className="cont">Your Yearly Contribution:</div>
+      <div className="goal">Your Yearly Goal:</div>
+      <div id="pie"></div>
     </div>
   );
 };
+
+
 
 
 export default StatsContainer;

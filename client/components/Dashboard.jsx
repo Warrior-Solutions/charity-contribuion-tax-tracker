@@ -1,33 +1,39 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 import CardContainer from './CardContainer.jsx';
 import Contributions from './Contributions.jsx';
 import StatsContainer from './StatsContainer.jsx';
 
-const Dashboard = (props) => {
+const Dashboard = () => {
+  const [userId, setUserId] = useState([]);
+
+  // const getUserInfo = () => {
+
+  
+
+
+
   return (
-     <Switch>
-        <Route exact path="/dashboard">
-          <div className="dashboard">
-            <div className="row">
-              <div className="column left">
-                <CardContainer />
-              </div>
-              <div className="column right">
-                <Switch>
-                    <Route exact path="/addContribution">
-                        <Contributions />
-                    </Route>
-                    <Route exact path="/dashboard">
-                        <StatsContainer />
-                    </Route>
-                </Switch>
-              </div>
-            </div>
-          </div>
-        </Route>
-      </Switch>
+    <div>
+      <div className="dashboard">
+        <div className="column left">
+        <CardContainer />
+      </div>
+
+        <div className="column right">
+          <Switch>
+          <Route exact path="/addContribution">
+              <Contributions />
+            </Route>
+            <Route exact path="/dashboard">
+              <StatsContainer />
+            </Route>
+          </Switch>
+        </div>
+        </div>
+    </div>
   );
 };
 

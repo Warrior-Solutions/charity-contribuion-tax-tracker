@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import CardList from './CardList.jsx';
 
 const CardContainer = (props) => {
   return (
     <div className="cardContainer">
-      <main>
-        <button>CardContainer</button>
-      </main>
+
+        <button id="addBtn">Add Contribution</button>
+
+        <CardList />
+
     </div>
   );
 };
