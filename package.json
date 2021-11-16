@@ -1,5 +1,5 @@
 {
-  "name": "Reinforcement Product",
+  "name": "contribution",
   "version": "1.0.0",
   "description": "Something something, to edit",
   "main": "index.js",
@@ -8,11 +8,11 @@
     "dev": "webpack serve",
     "watch": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server/index.js"
+    "start": "nodemon server/server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/The-Red-lipped-batfishes/Recommendation-Hub.git"
+    "url": "git+https://github.com/Warrior-Solutions/charity-contribution-tax-tracker"
   },
   "keywords": [],
   "author": "",
@@ -46,6 +46,7 @@
     "pg": "^8.7.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-router-dom": "^5.3.0",
     "tone": "^14.7.77"
   }
 }
