@@ -2,12 +2,13 @@
   "name": "contribution",
   "version": "1.0.0",
   "description": "Something something, to edit",
-  "main": "index.js",
+  "main": "server/server.js",
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server/server.js"
+    "start": "nodemon server/server.js",
+    "dev": "webpack serve"
   },
   "repository": {
     "type": "git",
