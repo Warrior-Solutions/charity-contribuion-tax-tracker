@@ -20,6 +20,7 @@ FOREIGN KEY (user_id) REFERENCES users(_id)
 
 CREATE TABLE yearly_goals (
 _id SERIAL UNIQUE PRIMARY KEY,
+year int DEFAULT DATE_PART('YEAR', CURRENT_TIMESTAMP),
 goal_amount MONEY,
 current_amount MONEY,
 user_id int NOT NULL,
