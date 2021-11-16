@@ -4,8 +4,10 @@ import { Switch, Route } from 'react-router-dom';
 const StatsContainer = (props) => {
   return (
     <div className="statsContainer">
+      <div>
       <div className="cont">Your Yearly Contribution:</div>
       <div className="goal">Your Yearly Goal:</div>
+      </div>
       <div id="pie"></div>
     </div>
   );
