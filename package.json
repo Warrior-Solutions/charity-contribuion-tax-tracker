@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "dev": "webpack serve",
     "watch": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server/server.js"
@@ -36,7 +35,7 @@
     "style-loader": "^3.3.0",
     "webpack": "^5.55.1",
     "webpack-cli": "^4.8.0",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^4.5.0"
   },
   "dependencies": {
     "express": "^4.17.1",
