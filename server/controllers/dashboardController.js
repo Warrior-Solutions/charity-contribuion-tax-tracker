@@ -130,9 +130,35 @@ dashboardController.postContribution = function(req, res, next) {
  * @param {*} next
  */
 dashboardController.getPieChat = function (req, res, next) => {
-  const query = {
-    text: `SELECT `
+  if (!req.body.userId) {
+    res.locals.queryStatus = 'Unsuccessful attempt to get the pie chart in dashboardController.getPieChart because userId is missing.';
+    return next();
   }
+
+  const query = {
+    params: [req.body.userId],
+    text: `SELECT SUM(amount), category FROM contributions GROUP BY category, user_id, year HAVING user_id = $1 AND year = DATE_PART('YEAR', CURRENT_DATE);`
+  }
+
+  db.query(query.text, query.params)
+    .then((dbRes) => {
+      if (dbRes.rows.length >= 1) {
+        res.locals.queryStatus = 'Successfully received piechart data for the user.';
+        res.locals.pieChartData = dbRes.rows;
+      } else {
+        console.log('Unsuccessful attempt to retrieve data from DB query in dashboardController.getPieChart');
+        res.locals.queryStatus = 'Unsuccessful attempt to retrieve data from DB query in dashboardController.getPieChart';
+      }
+      return next();
+    })
+    .catch(() => {
+      console.log('Unsuccessful attempt to retrieve data from DB query in dashboardController.getPieChart');
+      next({
+        log: 'Error in attempt to retrieve data from DB query in dashboardController.getPieChart';
+        status: 500,
+        message: 'Error in attempt to retrieve data from DB query in dashboardController.getPieChart'
+      })
+    })
 }
 
 /**
@@ -143,9 +169,28 @@ dashboardController.getPieChat = function (req, res, next) => {
  */
 dashboardController.getLineGraph = function (req, res, next) => {
   const query = {
-    text:
+    params: [req.body.userId]
+    text: `SELECT amount, DATE_PART('MONTH', donated_at) AS month, year FROM contributions WHERE user_id = 1;`
   }
-}
+  db.query(query.text, query.params)
+    .then((dbRes) => {
+      if (dbRes.rows.length >= 1) {
+        res.locals.queryStatus = 'Sucessfully retrieved data from dashboardController.getLineGraph';
+        res.locals.lineGraphData = dbRes.rows;
+      } else {
+        console.log('Unsuccessful retrieval attempt in dashboardController.getLineGraph');
+        res.locals.queryStatus = 'Unsuccessful retrieval attempt in dashboardController.getLineGraph';
+      }
+    })
+    .catch(() => {
+      console.log('Error in retrieval attempt in dashboardController.getLineGraph');
+      next({
+        log: 'Error in retrieval attempt in dashboardController.getLineGraph',
+        status: 500,
+        message: 'Error in retrieval attempt in dashboardController.getLineGraph'
+      });
+    });
+};
 
 /**
  *
@@ -154,9 +199,29 @@ dashboardController.getLineGraph = function (req, res, next) => {
  * @param {*} next
  */
 dashboardController.getList = function (req, res, next) => {
-  const query = {}
-}
+  const query = {
+    params: [req.body.userId],
+    text: `SELECT amount, donated_at as date, memo, category FROM contributions WHERE user_id = $1 ORDER BY donated_at DESC LIMIT 10;`
+  }
 
-dashboardController.post
+  db.query(query.text, query.params)
+    .then((dbRes) => {
+      if (dbRes.rows.length >= 1) {
+        res.locals.queryStatus = 'Successfully retrieved data from dashboardController.getList';
+        res.locals.listData = dbRes.rows;
+      } else {
+        console.log('Unsuccessfully attempt to retrieve data from DB query in dashboardController.getList');
+        res.locals.queryStatus = 'Unsuccessfully attempt to retrieve data from DB query in dashboardController.getList';
+      }
+    })
+    .catch(() => {
+      console.log('Error in attempt to retrieve data from DB query in dashboardController.getList');
+      next({
+        log: 'Error in attempt to retrieve data from DB query in dashboardController.getList',
+        status: 500,
+        message: 'Error in attempt to retrieve data from DB query in dashboardController.getList'
+      })
+    })
+}
 
 module.exports = dashboardController;
