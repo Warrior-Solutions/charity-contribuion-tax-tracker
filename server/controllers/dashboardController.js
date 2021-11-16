@@ -22,7 +22,7 @@ dashboardController.postYearlyGoal = function (req, res, next) {
 
   const query = {
     params: [userId, yearlyGoal],
-    text: `INSERT INTO users (user_id, goal_amount) VALUES ($1, $2);`
+    text: `INSERT INTO yearly_goals (user_id, goal_amount) VALUES ($1, $2);`
   }
 
   db.query(query.text, query.params)
@@ -99,7 +99,7 @@ dashboardController.postContribution = function(req, res, next) {
     params: [req.body.userId, req.body.payee, req.body.category, req.body.amount, req.body.memo],
     text: `INSERT INTO contributions (user_id, payee, category, amount, memo) VALUES ($1, $2, $3, $4, $5);
     UPDATE yearly_goals SET current_amount = (SELECT SUM(amount) AS newSum FROM contributions GROUP BY user_id, year HAVING user_id = $1 AND year = DATE_PART('YEAR', CURRENT_DATE)) WHERE user_id = $1;
-    SELECT current_amount FROM contributions where user_id = $1 AND year = DATE_PART('YEAR');`
+    SELECT current_amount FROM yearly_goals where user_id = $1 AND year = DATE_PART('YEAR');`
   }
 
   db.query(query.text, query.params)
@@ -132,7 +132,7 @@ dashboardController.postContribution = function(req, res, next) {
  * @outputs {*} res:  The sum of donations for that year grouped by category.
  * @param {*} next
  */
-dashboardController.getPieChat = function (req, res, next) => {
+dashboardController.getPieChart = function (req, res, next) => {
   if (!req.body.userId) {
     res.locals.queryStatus = 'Unsuccessful attempt to get the pie chart in dashboardController.getPieChart because userId is missing.';
     return next();
@@ -156,7 +156,7 @@ dashboardController.getPieChat = function (req, res, next) => {
     })
     .catch(() => {
       console.log('Unsuccessful attempt to retrieve data from DB query in dashboardController.getPieChart');
-      next({
+      return next({
         log: 'Error in attempt to retrieve data from DB query in dashboardController.getPieChart';
         status: 500,
         message: 'Error in attempt to retrieve data from DB query in dashboardController.getPieChart'
@@ -204,7 +204,7 @@ dashboardController.getLineGraph = function (req, res, next) => {
 dashboardController.getList = function (req, res, next) => {
   const query = {
     params: [req.body.userId, req.body.rowMin, req.body.rowMax],
-    text: `SELECT amount, donated_at as date, memo, category FROM contributions WHERE user_id = $1 ORDER BY donated_at DESC LIMIT 20;`
+    text: `SELECT amount, donated_at AS date, memo, category FROM contributions WHERE user_id = $1 ORDER BY donated_at DESC LIMIT 20;`
   }
 
   db.query(query.text, query.params)
@@ -216,10 +216,11 @@ dashboardController.getList = function (req, res, next) => {
         console.log('Unsuccessfully attempt to retrieve data from DB query in dashboardController.getList');
         res.locals.queryStatus = 'Unsuccessfully attempt to retrieve data from DB query in dashboardController.getList';
       }
+      return next();
     })
     .catch(() => {
       console.log('Error in attempt to retrieve data from DB query in dashboardController.getList');
-      next({
+      return next({
         log: 'Error in attempt to retrieve data from DB query in dashboardController.getList',
         status: 500,
         message: 'Error in attempt to retrieve data from DB query in dashboardController.getList'
