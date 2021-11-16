@@ -13,14 +13,15 @@ _id SERIAL UNIQUE PRIMARY KEY,
 amount MONEY NOT NULL,
 payee varchar(255) NOT NULL,
 category varchar(255) NOT NULL,
-donated_at TIME DEFAULT CURRENT_TIMESTAMP,
+donated_at DATE DEFAULT CURRENT_DATE,
+year INT DEFAULT DATE_PART('YEAR', CURRENT_DATE),
 user_id INT,
 FOREIGN KEY (user_id) REFERENCES users(_id)
 );
 
 CREATE TABLE yearly_goals (
 _id SERIAL UNIQUE PRIMARY KEY,
-year int DEFAULT DATE_PART('YEAR', CURRENT_TIMESTAMP),
+year int DEFAULT DATE_PART('YEAR', CURRENT_DATE),
 goal_amount MONEY,
 current_amount MONEY,
 user_id int NOT NULL,
@@ -97,3 +98,4 @@ INSERT INTO yearly_goals (goal_amount, user_id) VALUES (5000, 5);
 
 
 
+UPDATE yearly_goals SET current_amount = (SELECT SUM(amount) AS newSum FROM contributions GROUP BY user_id, year HAVING user_id = 1 AND year = DATE_PART('YEAR', CURRENT_DATE)) WHERE user_id = 1;
