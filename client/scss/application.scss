@@ -44,14 +44,13 @@
 
 .statsContainer {
   height: 550px;
-  padding: 20px;
 }
 
 .cont {
   width: 42%;
   height: 75px;
   float: left;
-  margin: 15px 0 0 4%;
+  margin: 35px 0 0 5%;
   border: red;
   background-color: purple;
   text-align: center;
@@ -61,7 +60,7 @@
   width: 42%;
   height: 75px;
   float: right;
-  margin: 15px 4% 0 0;
+  margin: 35px 5% 0 0;
   border: red;
   background-color: purple;
   text-align: center;
@@ -71,4 +70,6 @@
   background-color: gray;
   width: 84%;
   height: 50%;
+  margin: 0 0 0 8%;
+  
 }
