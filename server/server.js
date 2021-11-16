@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path'); // Attach file paths dynamically
 
 // Import the two controllers
-//! Fill in auth controller route
 const authController = require(path.join(__dirname, './controllers/authController.js'));
 const dashboardController = require(path.join(__dirname, './controllers/dashboardController.js'));
 
@@ -24,6 +23,7 @@ app.get('/dashboard',
     { listData, pieChartData, lineGraphData, yearlyDonationData } = res.locals;
   return res.status(200).setHeaders('Content-Type', 'application/json').json({ listData, pieChartData, lineGraphData, yearlyDonationData });
 })
+
 app.get('/dashboard/moreListData', dashboardController.getMoreListData, (req, res) => {
   return res.status(200).setHeaders('Content-Type', 'application/json').json(res.locals.moreListData);
 })
