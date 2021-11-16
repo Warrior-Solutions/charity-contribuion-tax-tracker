@@ -3,8 +3,8 @@ const path = require('path'); // Attach file paths dynamically
 
 // Import the two controllers
 //! Fill in auth controller route
-const authController = require(path.join(__dirname, ''));
-const dashboardController = require(path.join(__dirname, './controllers/dashboardControllers.js'));
+const authController = require(path.join(__dirname, './controllers/authController.js'));
+const dashboardController = require(path.join(__dirname, './controllers/dashboardController.js'));
 
 
 const app = express();
