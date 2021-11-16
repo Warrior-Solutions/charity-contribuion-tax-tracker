@@ -32,7 +32,7 @@ dashboardController.postYearlyGoal = function (req, res, next) {
     })
     .catch(() => {
       console.log('Error in dashboardController.postYearlyGoal while querying database.');
-      next({
+      return next({
         log: 'Error in dashboardController.postYearlyGoal while querying database.',
         status: 500,
         message: 'Error in dashboardController.postYearlyGoal while querying database.'
@@ -75,7 +75,7 @@ dashboardController.getCurrentYearlyDonations = function (req, res, next) {
     })
     .catch(() => {
       console.log('Error in dashboardController.getCurrentYearlyDonations while querying database.');
-      next({
+      return next({
         log: 'Error in dashboardController.getCurrentYearlyDonations while querying database.',
         status: 500,
         message: 'Error in dashboardController.getCurrentYearlyDonations while querying database.'
@@ -115,7 +115,7 @@ dashboardController.postContribution = function(req, res, next) {
     })
     .catch(() => {
       console.log('Error in dashboardController.postContribution while querying database.');
-      next({
+      return next({
         log: 'Error in dashboardController.postContribution while querying database.',
         status: 500,
         message: 'Error in dashboardController.postContribution while querying database.'
@@ -184,10 +184,11 @@ dashboardController.getLineGraph = function (req, res, next) => {
         console.log('Unsuccessful retrieval attempt in dashboardController.getLineGraph');
         res.locals.queryStatus = 'Unsuccessful retrieval attempt in dashboardController.getLineGraph';
       }
+      return next();
     })
     .catch(() => {
       console.log('Error in retrieval attempt in dashboardController.getLineGraph');
-      next({
+      return next({
         log: 'Error in retrieval attempt in dashboardController.getLineGraph',
         status: 500,
         message: 'Error in retrieval attempt in dashboardController.getLineGraph'
