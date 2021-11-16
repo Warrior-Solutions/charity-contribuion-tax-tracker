@@ -37,6 +37,23 @@ app.post('/dashboard/addContribution', dashboardController.postContribution, (re
   return res.status(200).setHeaders('Content-Type', 'application/json').json(res.locals.updatedContribution);
 })
 
+// Unknown route handler
+app.post((req, res) => {
+  return res.status(404).send('This page doesn\'t exist');
+})
+
+// Global Error handler
+app.use((err, req, res, next) => {
+  const defaultErr = {
+    log: 'Express default error log handler caught unknown middleware error',
+    status: 400,
+    message: { err: 'A default error was triggered'}
+  }
+
+  const errorObj = Object.assign({}, defaultErr, err);
+  console.log(errorObj.log);
+  return res.status(errorObj.status).send(JSON.stringify(errorObj.message));
+});
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
