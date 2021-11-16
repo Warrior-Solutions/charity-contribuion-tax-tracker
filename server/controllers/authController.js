@@ -27,7 +27,7 @@ authController.createNewUser = function (req, res, next) {
   db.query(query.text, query.params)
     .then((dbRes) => {
       if (dbRes.rows.length >= 1) {
-        res.locals.id = dbRes.rows[0]._id;
+        res.locals.userId = dbRes.rows[0]._id;
         queryStatus = 'Successfully created user, redirecting to dashboard';
       } else {
         console.log('User data not returned from authController.createNewUser');
@@ -63,7 +63,7 @@ authController.createNewOAuthUser = function (req, res, next) {
   db.query(query.text, query.params)
     .then((dbRes) => {
       if (dbRes.rows.length >= 1) {
-        res.locals.id = dbRes.rows[0]._id;
+        res.locals.userId = dbRes.rows[0]._id;
         res.locals.queryStatus = 'Successfully created new user with OAuth, redirecting to dashboard';
       } else {
         console.log('User data not returned from authController.createNewOAuthUser');
@@ -98,7 +98,7 @@ authController.attemptEmailLogin = function (req, res, next) {
   db.query(query.text, query.params)
     .then((dbRes) => {
       if (dbRes.rows.length >= 1) {
-        res.locals.id = dbRes.rows[0]._id;
+        res.locals.userId = dbRes.rows[0]._id;
         res.locals.queryStatus = 'Successful login, redirecting to dashboard';
       } else {
         console.log('Unsuccessful login attempt. User data not returned from authController.attemptUserLogin');
