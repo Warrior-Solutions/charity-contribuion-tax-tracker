@@ -43,7 +43,12 @@
 }
 
 .statsContainer {
-  height: 550px;
+  height: 900px;
+}
+
+#contGoal {
+  height: 150px;
+  background-color: royalblue;
 }
 
 .cont {
@@ -66,10 +71,17 @@
   text-align: center;
 }
 
-#pie {
+.pie {
   background-color: gray;
   width: 90%;
-  height: 50%;
-  margin: 0 0 0 5%;
-  
+  height: 38%;
+  margin: 1px 0 0 5%;
+  margin-bottom: 50px;
+}
+
+.graph {
+  background-color: gray;
+  width: 90%;
+  height: 38%;
+  margin: 1px 0 0 5%;
 }
