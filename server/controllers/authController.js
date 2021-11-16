@@ -4,6 +4,9 @@ const db = require('../model/model');
 // Initialize authController
 const authController = {};
 
+// TODO: Should we make a password reset system? How do we do that and send an email to a user?
+// TODO: At the very least we can set up a system on the dashboard page where the user can change their password.
+
 authController.createNewUser = function (req, res, next) {
   // Extract email and password to use in query.
   const { email, password } = req.body;
