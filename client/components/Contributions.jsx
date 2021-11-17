@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { useHistory } from 'react-router';
 import { Switch, Route, HashRouter } from 'react-router-dom';
+import { getUserId } from '../services/UserThingyRenameThis';
 
 const Contributions = () => {
 
@@ -10,13 +11,15 @@ const Contributions = () => {
     e.preventDefault()
     const post = {};
     for (const input of e.target) {
+      console.log("TARGET:", e.target)
       const {name, value} = input;
       if (!name) {
         continue;
       }
       post[name] = value;
     }
-    post.userId = 
+    const userId = getUserId()
+    post[userId] = userId
     fetch("http://localhost:3000/dashboard/addContribution", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -37,9 +40,9 @@ const Contributions = () => {
             <th>Charity Organization:</th>
             <td>
               <input
-                name="charity"
+                name="payee"
                 type="text"
-                placeholder="charity"
+                placeholder="payee"
                 // defaultValue={post.date}
               ></input>
             </td>
@@ -56,7 +59,7 @@ const Contributions = () => {
               ></input>
             </td>
           </tr>
-          <tr>
+          {/* <tr>
             <th>Date:</th>
             <td>
               <input
@@ -67,7 +70,7 @@ const Contributions = () => {
                 // defaultValue={post.distance}
               ></input>
             </td>
-          </tr>
+          </tr> */}
           <tr>
             <th>Category:</th>
             <td>
@@ -84,7 +87,7 @@ const Contributions = () => {
             <th>Memo:</th>
             <td>
               <input
-                name="run_time"
+                name="memo"
                 type="text"
                 placeholder="memo"
 
