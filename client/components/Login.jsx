@@ -50,12 +50,20 @@ class Login extends Component {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log("hello", res);
         console.log("res.locals: " + res.locals);
+        console.log(res.userId);
 
         saveUserId(res.userId);
 
-        this.setState({ loggedIn: true });
+        if (res.userId !== undefined) {
+          this.setState({ loggedIn: true });
+        }
+
+
+        // console.log('this.state.loggedIn',  this.state.loggedIn);
+        // if (this.state.loggedIn) {
+        //   return <Redirect to="/dashboard" />;
+        // }
       })
       .catch((err) => {
         console.log(err);
@@ -63,10 +71,13 @@ class Login extends Component {
   }
 
   render() {
-    console.log("this.props :", this.props);
+    // console.log("this.props :", this.props);
 
     if (this.state.loggedIn) {
       return <Redirect to="/dashboard" />;
+    } else {
+      console.log('BACK TO LOGIN');
+      <Redirect to="/" />
     }
 
     return (
