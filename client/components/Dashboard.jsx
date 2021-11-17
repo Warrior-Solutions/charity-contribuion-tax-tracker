@@ -24,7 +24,7 @@ const Dashboard = () => {
 
         <div className="column right">
           <Switch>
-          <Route exact path="/addContribution">
+          <Route exact path="/newentry">
               <Contributions />
             </Route>
             <Route exact path="/dashboard">

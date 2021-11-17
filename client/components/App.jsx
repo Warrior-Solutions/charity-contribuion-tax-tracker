@@ -23,7 +23,9 @@ const App = (props) => {
       <Route exact path="/">
         <Login />
       </Route>
-
+      <Route exact path="/newentry">
+        <Contributions />
+      </Route>
     </Switch>
   </div>
   </HashRouter>
