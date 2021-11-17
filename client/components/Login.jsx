@@ -11,7 +11,6 @@ import * as React from "react";
 import { Component } from "react";
 import { Redirect } from "react-router";
 import { removeUserId, saveUserId } from "../services/UserThingyRenameThis";
-// import Utensils from '../assets/Utensils.png';
 
 const theme = createTheme();
 
@@ -33,7 +32,6 @@ class Login extends Component {
   }
 
   loginAttempt() {
-    console.log("Im in login functionnnnnnnnn");
     let email = document.getElementById("email").value;
 
     let password = document.getElementById("password").value;

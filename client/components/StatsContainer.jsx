@@ -12,10 +12,10 @@ const StatsContainer = (props) => {
           <div className="goal">Your Yearly Goal:</div>
         </div>
         <div className="pie">
-          {/* <PieChart /> */}
+          <PieChart />
         </div>
         <div className="graph">
-          {/* <LineChart /> */}
+          <LineChart />
         </div>
       </div>
     </div>
