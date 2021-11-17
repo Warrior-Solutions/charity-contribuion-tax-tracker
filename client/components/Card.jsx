@@ -5,7 +5,11 @@ const Card = (props) => {
   return (
     <div className="card">
         
-        <div>Card</div>
+        <p>{props.li.date}</p>
+        <p>{props.li.category}</p>
+        <p>{props.li.amount}</p>
+        <p>{props.li.memo}</p>
+       
     
 
     </div>

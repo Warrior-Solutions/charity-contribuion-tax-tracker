@@ -27,7 +27,7 @@ export const Authenticated = () => {
     };
   }, [userData]);
 
-  // Assume that userId cannot be zero.
+
   if (userId && !userData) {
     loadUserData().then(setUserData);
   }
