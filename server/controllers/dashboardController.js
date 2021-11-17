@@ -12,7 +12,10 @@ const dashboardController = {};
  * @param {*} next
  */
 dashboardController.postYearlyGoal = function (req, res, next) {
-  const { userId, yearlyGoal } = req.body;
+  let userId
+  req.body.userId ? userId = req.body.userId : userId = res.locals.userId;
+  
+  const { yearlyGoal } = req.body;
 
   if (!userId || !yearlyGoal) {
     console.log('Unsuccessful post of yearly goal in dashboardController.yearlyGoal, missing userId or yearlyGoal.');
@@ -48,7 +51,9 @@ dashboardController.postYearlyGoal = function (req, res, next) {
  * @returns number of the current donation sum.
  */
 dashboardController.getCurrentYearlyDonations = function (req, res, next) {
-  const { userId } = req.body;
+  // const { userId } = req.body;
+  let userId
+  req.body.userId ? userId = req.body.userId : userId = res.locals.userId;
 
   if (!userId) {
     console.log('Unsuccessful get of current yearly donations in dashboardController.getCurrentYearlyDonations, missing userId.');
@@ -65,8 +70,6 @@ dashboardController.getCurrentYearlyDonations = function (req, res, next) {
 
   db.query(query.text, query.params)
     .then((dbRes) => {
-      console.log(`dbRes.rows[0].current_amount ${dbRes.rows[0].current_amount}`);
-      console.log(`dbRes.rows[0].current_amount ${dbRes.rows[0].goal_amount}`);
       if (dbRes.rows.length >= 1) {
         res.locals.queryStatus = 'Sucussfully got yearly donations data from DB.';
         res.locals.currentAmount = dbRes.rows[0].current_amount;
@@ -93,13 +96,18 @@ dashboardController.getCurrentYearlyDonations = function (req, res, next) {
  * @param {*} next
  */
 dashboardController.postContribution = function(req, res, next) {
-  if (!req.body.userId || !req.body.payee || !req.body.category || !req.body.amount) {
+  let userId
+  req.body.userId ? userId = req.body.userId : userId = res.locals.userId;
+
+
+  if (!userId || !req.body.payee || !req.body.category || !req.body.amount) {
     console.log('Unsuccessful post of contribution in dashboardController.postContribution, missing information');
     res.locals.queryStatus = 'Unsuccessful post of contribution in dashboardController.postContribution, missing information';
+    return next();
   }
 
   const query = {
-    params: [req.body.userId, req.body.payee, req.body.category, req.body.amount, req.body.memo],
+    params: [userId, req.body.payee, req.body.category, req.body.amount, req.body.memo],
     text: `INSERT INTO contributions (user_id, payee, category, amount, memo) VALUES ($1, $2, $3, $4, $5);
     UPDATE yearly_goals SET current_amount = (SELECT SUM(amount) AS newSum FROM contributions GROUP BY user_id, year HAVING user_id = $1 AND year = DATE_PART('YEAR', CURRENT_DATE)) WHERE user_id = $1;
     SELECT current_amount FROM yearly_goals where user_id = $1 AND year = DATE_PART('YEAR');`
@@ -136,13 +144,16 @@ dashboardController.postContribution = function(req, res, next) {
  * @param {*} next
  */
 dashboardController.getPieChart = function (req, res, next) {
-  if (!req.body.userId) {
+  let userId
+  req.body.userId ? userId = req.body.userId : userId = res.locals.userId;
+  
+  if (!userId) {
     res.locals.queryStatus = 'Unsuccessful attempt to get the pie chart in dashboardController.getPieChart because userId is missing.';
     return next();
   }
 
   const query = {
-    params: [req.body.userId],
+    params: [userId],
     text: `SELECT SUM(amount), category FROM contributions GROUP BY category, user_id, year HAVING user_id = $1 AND year = DATE_PART('YEAR', CURRENT_DATE);`
   }
 
@@ -174,8 +185,16 @@ dashboardController.getPieChart = function (req, res, next) {
  * @param {*} next
  */
 dashboardController.getLineGraph = function (req, res, next) {
+  let userId
+  req.body.userId ? userId = req.body.userId : userId = res.locals.userId;
+  
+  if (!userId) {
+    res.locals.queryStatus = 'Unsuccessful attempt to get the line graph in dashboardController.getLineGraph because userId is missing.';
+    return next();
+  }
+  
   const query = {
-    params: [req.body.userId],
+    params: [userId],
     text: `SELECT amount, DATE_PART('MONTH', donated_at) AS month, year FROM contributions WHERE user_id = $1;`
   }
   db.query(query.text, query.params)
@@ -206,9 +225,17 @@ dashboardController.getLineGraph = function (req, res, next) {
  * @param {*} next
  */
 dashboardController.getList = function (req, res, next) {
+  let userId
+  req.body.userId ? userId = req.body.userId : userId = res.locals.userId;
+  
+  if (!userId) {
+    console.log('Unsuccessful get of getList in dashboardController.getList, missing userId.');
+    res.locals.queryStatus = 'Unsuccessful get of getList in dashboardController.getList, missing userId.';
+    return next();
+  }
 
   const query = {
-    params: [req.body.userId],
+    params: [userId],
     text: `SELECT amount, donated_at AS date, memo, category FROM contributions WHERE user_id = $1 ORDER BY donated_at DESC LIMIT 20;`
   }
 
@@ -234,8 +261,17 @@ dashboardController.getList = function (req, res, next) {
 }
 
 dashboardController.getMoreListData = function(req, res, next) {
+  let userId
+  req.body.userId ? userId = req.body.userId : userId = res.locals.userId;
+  
+  if (!userId) {
+    console.log('Unsuccessful get of getMoreListData dashboardController.getMoreListData, missing userId.');
+    res.locals.queryStatus = 'Unsuccessful get of getMoreListData in dashboardController.getMoreListData, missing userId.';
+    return next();
+  }
+  
   const query = {
-    params: [req.body.userId, req.body.index],
+    params: [userId, req.body.index],
     text: `SELECT amount, donated_at as date, memo, category FROM contributions WHERE user_id = $1 ORDER BY donated_at DESC LIMIT $2;`
   }
 
