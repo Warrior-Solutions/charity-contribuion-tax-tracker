@@ -41,12 +41,13 @@ app.post('/loginAttempt',
   dashboardController.getLineGraph,
   dashboardController.getCurrentYearlyDonations,
   (req, res) => {
+    const userId = res.locals.userId;
     const listData = res.locals.listData;
     const pieChartData = res.locals.pieChartData;
     const currentAmount = res.locals.currentAmount;
     const goalAmount = res.locals.goalAmount;
     const lineGraphData = res.locals.lineGraphData;
-    return res.status(200).setHeader('Content-Type', 'application/json').json({listData, pieChartData, lineGraphData, currentAmount, goalAmount});
+    return res.status(200).setHeader('Content-Type', 'application/json').json({userId, listData, pieChartData, lineGraphData, currentAmount, goalAmount});
 })
 
 // TODO: set headers and send back userid with redirect
