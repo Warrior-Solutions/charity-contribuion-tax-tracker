@@ -7,12 +7,8 @@
     "build": "webpack",
     "watch": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
-<<<<<<< HEAD
     "start": "nodemon server/server.js",
     "dev": "webpack serve"
-=======
-    "start": "nodemon server/index.js"
->>>>>>> 13b4d60297bf9dc49f527c4a8ae7ba5df37fb678
   },
   "repository": {
     "type": "git",
@@ -59,6 +55,11 @@
     "react": "^17.0.2",
     "react-chartjs-2": "^3.3.0",
     "react-dom": "^17.0.2",
+<<<<<<< HEAD
+=======
+    "react-minimal-pie-chart": "^8.2.0",
+    "react-router-dom": "^5.3.0",
+>>>>>>> 5c054d14014387355a51d4d0247a278cf83d5dab
     "tone": "^14.7.77"
   }
 }

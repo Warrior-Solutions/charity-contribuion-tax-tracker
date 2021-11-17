@@ -14,11 +14,11 @@ export const Authenticated = () => {
 
   /*
    * We only re-instantiate the userDataContextValue object if userData changes.
-   * This is to avoid a caveat as stated in the React documentation: 
-   * 
+   * This is to avoid a caveat as stated in the React documentation:
+   *
    * Because context uses reference identity to determine when to re-render,
    * there are some gotchas that could trigger unintentional renders in
-   * consumers when a provider’s parent re-renders. 
+   * consumers when a provider’s parent re-renders.
    */
   const userDataContextValue = useMemo(() => {
     return {
@@ -31,7 +31,7 @@ export const Authenticated = () => {
   if (userId && !userData) {
     loadUserData().then(setUserData);
   }
-
+  console.log('userId: ', userId);
   console.log("Authenticated rendered", userData)
 
   /*

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import PieChart from './PieChart.jsx';
-import LineChart from './LineChart.jsx'
+import PieChartContainer from './PieChart.jsx';
+import LineChartContainer from './LineChart.jsx'
 
 const StatsContainer = (props) => {
   return (
@@ -12,10 +12,10 @@ const StatsContainer = (props) => {
           <div className="goal">Your Yearly Goal:</div>
         </div>
         <div className="pie">
-          {/* <PieChart /> */}
+          <PieChartContainer />
         </div>
         <div className="graph">
-          {/* <LineChart /> */}
+          <LineChartContainer />
         </div>
       </div>
     </div>
