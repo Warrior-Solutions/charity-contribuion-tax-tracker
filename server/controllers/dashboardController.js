@@ -65,9 +65,12 @@ dashboardController.getCurrentYearlyDonations = function (req, res, next) {
 
   db.query(query.text, query.params)
     .then((dbRes) => {
+      console.log(`dbRes.rows[0].current_amount ${dbRes.rows[0].current_amount}`);
+      console.log(`dbRes.rows[0].current_amount ${dbRes.rows[0].goal_amount}`);
       if (dbRes.rows.length >= 1) {
         res.locals.queryStatus = 'Sucussfully got yearly donations data from DB.';
-        res.locals.yearlyDonationData = dbRes.rows;
+        res.locals.currentAmount = dbRes.rows[0].current_amount;
+        res.locals.goalAmount = dbRes.rows[0].goal_amount;
       } else {
         res.locals.queryStatus = 'Unsuccessfully attempt to get current yearly donations from DB.';
       }
@@ -132,7 +135,7 @@ dashboardController.postContribution = function(req, res, next) {
  * @outputs {*} res:  The sum of donations for that year grouped by category.
  * @param {*} next
  */
-dashboardController.getPieChart = function (req, res, next) => {
+dashboardController.getPieChart = function (req, res, next) {
   if (!req.body.userId) {
     res.locals.queryStatus = 'Unsuccessful attempt to get the pie chart in dashboardController.getPieChart because userId is missing.';
     return next();
@@ -157,7 +160,7 @@ dashboardController.getPieChart = function (req, res, next) => {
     .catch(() => {
       console.log('Unsuccessful attempt to retrieve data from DB query in dashboardController.getPieChart');
       return next({
-        log: 'Error in attempt to retrieve data from DB query in dashboardController.getPieChart';
+        log: 'Error in attempt to retrieve data from DB query in dashboardController.getPieChart',
         status: 500,
         message: 'Error in attempt to retrieve data from DB query in dashboardController.getPieChart'
       })
@@ -170,10 +173,10 @@ dashboardController.getPieChart = function (req, res, next) => {
  * @outputs {*} res:
  * @param {*} next
  */
-dashboardController.getLineGraph = function (req, res, next) => {
+dashboardController.getLineGraph = function (req, res, next) {
   const query = {
-    params: [req.body.userId]
-    text: `SELECT amount, DATE_PART('MONTH', donated_at) AS month, year FROM contributions WHERE user_id = 1;`
+    params: [req.body.userId],
+    text: `SELECT amount, DATE_PART('MONTH', donated_at) AS month, year FROM contributions WHERE user_id = $1;`
   }
   db.query(query.text, query.params)
     .then((dbRes) => {
@@ -202,9 +205,10 @@ dashboardController.getLineGraph = function (req, res, next) => {
  * @outputs {*} res:
  * @param {*} next
  */
-dashboardController.getList = function (req, res, next) => {
+dashboardController.getList = function (req, res, next) {
+
   const query = {
-    params: [req.body.userId, req.body.rowMin, req.body.rowMax],
+    params: [req.body.userId],
     text: `SELECT amount, donated_at AS date, memo, category FROM contributions WHERE user_id = $1 ORDER BY donated_at DESC LIMIT 20;`
   }
 
@@ -229,7 +233,7 @@ dashboardController.getList = function (req, res, next) => {
     })
 }
 
-dataController.getMoreListData = function(req, res, next) {
+dashboardController.getMoreListData = function(req, res, next) {
   const query = {
     params: [req.body.userId, req.body.index],
     text: `SELECT amount, donated_at as date, memo, category FROM contributions WHERE user_id = $1 ORDER BY donated_at DESC LIMIT $2;`
