@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path'); // Attach file paths dynamically
+// const bodyparser = require('bodyparser');
+
 
 // Import the two controllers
 const authController = require(path.join(__dirname, './controllers/authController.js'));
@@ -9,19 +11,45 @@ const dashboardController = require(path.join(__dirname, './controllers/dashboar
 const app = express();
 const port = 3000;
 
+// Parse JSON and URL encoded files
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 // serve the static file in the root directory
 app.use(express.static(path.join(__dirname, './../index.html')));
 
+//! TESTING REMOVE AFTER
+// app.post('/testGetList', dashboardController.getCurrentYearlyDonations, (req, res, next) => {
+//   console.log('🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 ~ file: server.js ~ line 23 ~ app.post ~ dashboardController.getList', dashboardController.getList)
+//   console.log(`res.locals.lineGraphData: ${res.locals.yearlyDonationData}`);
+//     const arrayOfListData = res.locals.yearlyDonationData;
+//     for (let i = 0; i < arrayOfListData.length; i++) {
+//       console.log(arrayOfListData[i]);
+//     }
+//   return res.status(200).setHeaders('Content-Type', 'application/json').json(res.locals);
+// });
+
+app.post('/createUser', authController.createNewUser, (req, res, next) => {
+  return res.status(200).setHeaders('Content-Type', 'application/json')
+})
+
+
 
 // Get all dashboard components
-app.get('/dashboard',
-  dashboardController.getList,
-  dashboardController.getPieChart,
-  dashBoardController.getLineGraph,
+app.post('/dashboard',
+  // dashboardController.getList,
+  // dashboardController.getPieChart,
+  // dashboardController.getLineGraph,
   dashboardController.getCurrentYearlyDonations,
   (req, res) => {
-    { listData, pieChartData, lineGraphData, yearlyDonationData } = res.locals;
-  return res.status(200).setHeaders('Content-Type', 'application/json').json({ listData, pieChartData, lineGraphData, yearlyDonationData });
+    const listData = res.locals.listData;
+    const pieChartData = res.locals.pieChartData;
+    const currentAmount = res.locals.currentAmount;
+    const goalAmount = res.locals.goalAmount;
+    const lineGraphData = res.locals.lineGraphData;
+    console.log('data :', currentAmount, goalAmount);
+    // listData, pieChartData, lineGraphData, yearlyDonationData = res.locals;
+  return res.status(200);
 })
 
 app.get('/dashboard/moreListData', dashboardController.getMoreListData, (req, res) => {
