@@ -59,6 +59,8 @@
   border: red;
   background-color: purple;
   text-align: center;
+  font-size: 1.2em;
+
 }
 
 .goal {
@@ -121,5 +123,11 @@ td {
   width: 50%;
   border-radius: 8px;
   margin: 5% 0 0 25%;
+  
+}
+
+.containerDollarAmount {
+  font-family: 'Cabin', sans-serif;
+  font-size: 2.2em;
   
 }
