@@ -18,28 +18,33 @@ app.use(express.json());
 // serve the static file in the root directory
 app.use(express.static(path.join(__dirname, './../index.html')));
 
-//! TESTING REMOVE AFTER
-// app.post('/testGetList', dashboardController.getCurrentYearlyDonations, (req, res, next) => {
-//   console.log('🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 ~ file: server.js ~ line 23 ~ app.post ~ dashboardController.getList', dashboardController.getList)
-//   console.log(`res.locals.lineGraphData: ${res.locals.yearlyDonationData}`);
-//     const arrayOfListData = res.locals.yearlyDonationData;
-//     for (let i = 0; i < arrayOfListData.length; i++) {
-//       console.log(arrayOfListData[i]);
-//     }
-//   return res.status(200).setHeaders('Content-Type', 'application/json').json(res.locals);
-// });
 
+
+// TODO: set headers and send back userid with redirect
 app.post('/createUser', authController.createNewUser, (req, res, next) => {
-  return res.status(200).setHeaders('Content-Type', 'application/json')
+  return res.status(200).setHeader('Content-Type', 'application/json').json(res.locals.userId).redirect('/dashboard');
 })
 
+// TODO: set headers and send back userid with redirect
+app.post('/createOAuthUser', authController.createNewOAuthUser, (req, res, next) => {
+  return res.status(200).setHeader('Content-Type', 'application/json').json(res.locals.userId).redirect('/dashboard');
+})
 
+// TODO: set headers and send back userid with redirect
+app.post('/loginAttempt', authController.attemptEmailLogin, (req, res, next) => {
+  return res.status(200).setHeader('Content-Type', 'application/json').json(res.locals.userId).redirect('/dashboard');
+})
+
+// TODO: set headers and send back userid with redirect
+app.post('/loginOAuthAttempt', authController.attemptUserOAuthLogin, (req, res, next) => {
+  return res.status(200).setHeader('Content-Type', 'application/json').json(res.locals.userId).redirect('/dashboard');
+})
 
 // Get all dashboard components
 app.post('/dashboard',
-  // dashboardController.getList,
-  // dashboardController.getPieChart,
-  // dashboardController.getLineGraph,
+  dashboardController.getList,
+  dashboardController.getPieChart,
+  dashboardController.getLineGraph,
   dashboardController.getCurrentYearlyDonations,
   (req, res) => {
     const listData = res.locals.listData;
@@ -47,13 +52,13 @@ app.post('/dashboard',
     const currentAmount = res.locals.currentAmount;
     const goalAmount = res.locals.goalAmount;
     const lineGraphData = res.locals.lineGraphData;
-    console.log('data :', currentAmount, goalAmount);
+    console.log('data :', currentAmount, goalAmount, listData, pieChartData, lineGraphData);
     // listData, pieChartData, lineGraphData, yearlyDonationData = res.locals;
-  return res.status(200);
+  return res.status(200).setHeader('Content-Type', 'application/json').json({listData, pieChartData, lineGraphData, currentAmount, goalAmount});
 })
 
 app.get('/dashboard/moreListData', dashboardController.getMoreListData, (req, res) => {
-  return res.status(200).setHeaders('Content-Type', 'application/json').json(res.locals.moreListData);
+  return res.status(200).setHeader('Content-Type', 'application/json').json(res.locals.moreListData);
 })
 
 //post data to dashboard
@@ -62,7 +67,7 @@ app.post('/dashboard/yearlyGoal', dashboardController.postYearlyGoal, (req, res)
 })
 
 app.post('/dashboard/addContribution', dashboardController.postContribution, (req, res) => {
-  return res.status(200).setHeaders('Content-Type', 'application/json').json(res.locals.updatedContribution);
+  return res.status(200).setHeader('Content-Type', 'application/json').json(res.locals.updatedContribution);
 })
 
 // Unknown route handler
