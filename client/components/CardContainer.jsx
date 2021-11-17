@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
-import { HashRouter, Link } from 'react-router-dom';
+import React, { Component, useContext, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link, HashRouter } from "react-router-dom";
+import { UserDataContext } from '../contexts/UserDataContext.js';
 import CardList from './CardList.jsx';
 
 const CardContainer = (props) => {
+
   return (
     <HashRouter>
       <div className="cardContainer">
@@ -14,6 +16,5 @@ const CardContainer = (props) => {
     </HashRouter>
   );
 };
-
 
 export default CardContainer;

@@ -10,6 +10,7 @@ const authController = {};
 authController.createNewUser = function (req, res, next) {
   // Extract email and password to use in query.
   const { email, password } = req.body;
+  // const { email, password }  = req.params
 
   if (!email || !password) {
     res.locals.queryStatus = 'unsuccessful create new user attempt, missing email or password';
