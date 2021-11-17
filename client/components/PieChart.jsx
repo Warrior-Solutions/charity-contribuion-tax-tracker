@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Bar, Line, Pie} from 'react-chartjs-2';
-
-class PieChart extends Component{
+// import {Bar, Line, Pie} from 'react-chartjs-2';
+import { PieChart } from 'react-minimal-pie-chart';
+class PieChartContainer extends Component{
   constructor(props){
     super(props);
     this.state = {
@@ -9,20 +9,18 @@ class PieChart extends Component{
     }
   }
 
-  static defaultProps = {
-    displayTitle:true,
-    displayLegend: true,
-    legendPosition:'right',
-    location:'City'
-  }
-
   render(){
     return (
-      <div className="chart">
-        <h1>HERE IS THE PIE CHART</h1>
+      <div className="pie-chart-container">
+        <PieChart className="pie-chart"
+          data={[
+            { title: 'One', value: 10, color: '#E38627' },
+            { title: 'Two', value: 15, color: '#C13C37' },
+            { title: 'Three', value: 20, color: '#6A2135' },
+          ]}/>;
       </div>
     )
   }
 }
 
-export default PieChart;
+export default PieChartContainer;
