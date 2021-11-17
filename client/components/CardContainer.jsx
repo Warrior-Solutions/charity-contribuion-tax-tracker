@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link, HashRouter } from "react-router-dom";
 import CardList from './CardList.jsx';
 
 const CardContainer = (props) => {
@@ -14,6 +14,5 @@ const CardContainer = (props) => {
     </HashRouter>
   );
 };
-
 
 export default CardContainer;

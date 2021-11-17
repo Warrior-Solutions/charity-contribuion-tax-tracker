@@ -6,7 +6,7 @@ const Card = (props) => {
     <div className="card">
         
         <div>Card</div>
-        {/* fetch a list of card info */}
+    
 
     </div>
   );

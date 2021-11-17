@@ -8,12 +8,12 @@
 }
 
 .left {
-  width: 30%;
+  width: 40%;
   background-color: burlywood;
 }
 
 .right {
-  width: 70%;
+  width: 60%;
   background-color: pink;
 }
 
@@ -84,4 +84,42 @@
   width: 90%;
   height: 38%;
   margin: 1px 0 0 5%;
+}
+
+.container {
+  max-width: 1024px;
+  margin: auto;
+  border-radius: 20px;
+  
+}
+
+.newentrytable {
+  background-color: lightgray;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+th {
+  padding: 0.9em;
+  font-family: 'Cabin', sans-serif;
+  font-size: 1.3em;
+}
+
+td {
+  padding: 0.9em;
+  text-align: center;
+}
+
+#site-main {
+  margin: 6em 0;
+  display: grid;
+
+}
+
+#entrybutton {
+  height: 25px;
+  width: 50%;
+  border-radius: 8px;
+  margin: 5% 0 0 25%;
+  
 }

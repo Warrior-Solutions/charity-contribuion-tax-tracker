@@ -7,14 +7,24 @@ import Contributions from './Contributions.jsx';
 import StatsContainer from './StatsContainer.jsx';
 
 const Dashboard = () => {
-  const [userId, setUserId] = useState([]);
 
-  // const getUserInfo = () => {
-
+// function getDashboardData() {
+//   fetch('/dashboard', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Accept': 'application/json'
+//     },
+//     body: JSON.stringify({
+//       item: userId
+//     })
+//   })
+//   .then(() => {
   
+// })
+// }
 
-
-
+// function postYearlyGoal
   return (
     <div>
       <div className="dashboard">

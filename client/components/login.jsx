@@ -7,7 +7,6 @@ import Paper from '@mui/material/Paper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import axios from 'axios';
 import * as React from 'react';
 import { Component } from 'react';
 // import Utensils from '../assets/Utensils.png';
@@ -15,25 +14,23 @@ import { Component } from 'react';
 const theme = createTheme();
 
 class Login extends Component {
+  
+  constructor(props) {
+    super(props);
+  }
 
-login() {
-  let email = document.getElementById("email").value;
-  let password = document.getElementById("password").value;
-  axios.post('/auth/login', {
-    email: email,
-    password: password
-  })
-  .then(res => {
-    console.log('hello');
-    console.log(res.data);
+  loginAttempt() {
+    console.log('Im in login functionnnnnnnnn')
+    let email = document.getElementById("email").value;
 
-  })
-  .catch(err => {
-    console.log(err);
-  })
-}
+    let password = document.getElementById("password").value;
+    this.props.handleLogin(email, password);
+  }
 
 render() {
+
+  console.log('this.props :' + this.props[0]);
+
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
@@ -92,11 +89,10 @@ render() {
                 autoComplete="current-password"
               />
               <Button
-                onClick={this.login}
+                onClick={this.loginAttempt}
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                href='#/dashboard'
               >
                 Sign In
               </Button>
