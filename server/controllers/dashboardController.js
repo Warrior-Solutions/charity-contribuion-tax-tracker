@@ -108,13 +108,26 @@ dashboardController.postContribution = function(req, res, next) {
 
   const query = {
     params: [userId, req.body.payee, req.body.category, req.body.amount, req.body.memo],
-    text: `INSERT INTO contributions (user_id, payee, category, amount, memo) VALUES ($1, $2, $3, $4, $5);
-    UPDATE yearly_goals SET current_amount = (SELECT SUM(amount) AS newSum FROM contributions GROUP BY user_id, year HAVING user_id = $1 AND year = DATE_PART('YEAR', CURRENT_DATE)) WHERE user_id = $1;
-    SELECT current_amount FROM yearly_goals where user_id = $1 AND year = DATE_PART('YEAR');`
+    text: `INSERT INTO contributions (user_id, payee, category, amount, memo) VALUES ($1, $2, $3, $4, $5);`
+  }
+
+  const query2 = {
+    params: [userId],
+    text: `UPDATE yearly_goals SET current_amount = (SELECT SUM(amount) AS newSum FROM contributions GROUP BY user_id, year HAVING user_id = $1 AND year = DATE_PART('YEAR', CURRENT_DATE)) WHERE user_id = $1;`
+  }
+  // UPDATE yearly_goals SET current_amount = (SELECT SUM(amount) AS newSum FROM contributions GROUP BY user_id, year HAVING user_id = $1 AND year = DATE_PART('YEAR', CURRENT_DATE)) WHERE user_id = $1;
+    // SELECT current_amount FROM yearly_goals where user_id = $1 AND year = DATE_PART('YEAR', CURRENT_DATE);
+
+  const query3 = {
+    params: [userId],
+    text: `SELECT current_amount FROM yearly_goals where user_id = $1 AND year = DATE_PART('YEAR', CURRENT_DATE);`
   }
 
   db.query(query.text, query.params)
+  db.query(query2.text, query2.params)
+  db.query(query3.text, query3.params)
     .then((dbRes) => {
+      console.log(".........", dbRes)
       if (dbRes.rows.length >= 1) {
         res.locals.queryStatus = 'Successfully retrieved updated contribution sum for user in postContribution.';
         res.locals.updatedContribution = dbRes.rows[0];
@@ -124,7 +137,8 @@ dashboardController.postContribution = function(req, res, next) {
       }
       return next();
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err);
       console.log('Error in dashboardController.postContribution while querying database.');
       return next({
         log: 'Error in dashboardController.postContribution while querying database.',

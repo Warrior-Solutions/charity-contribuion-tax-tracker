@@ -13,10 +13,10 @@ const CardList = (props) => {
     <div className="cardList">
       {userData.listData.map((listItem, index) => (
         // TODO Change this to card
-        <div key={index}>
-          {listItem.amount}
-        </div>
-        // <Card key={index} li={listItem} />
+        // <div key={index}>
+        //   {listItem.amount}
+        // </div>
+        <Card key={index} li={listItem} />
       ))}
     </div>
   );
