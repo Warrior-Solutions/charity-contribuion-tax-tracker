@@ -1,6 +1,6 @@
-// body {
-//     background-color:red;
-// }
+body {
+    background-color:rgb(0, 0, 0);
+}
 
 .column {
   float: left;
@@ -9,12 +9,12 @@
 
 .left {
   width: 40%;
-  background-color: burlywood;
+  background-color: rgb(0, 0, 0);
 }
 
 .right {
   width: 60%;
-  background-color: pink;
+  background-color: rgb(0, 0, 0);
 }
 
 #addBtn {
@@ -22,13 +22,18 @@
   height: 50px;
   margin-left: 10%;
   margin-top: 20px;
-  
+}
+
+.pie-chart {
+  margin-left: 10%;
+  margin-top: 45px;
+  width: 250px;
 }
 
 .cardList {
   width: 80%;
   height: 800px;
-  background-color: aqua;
+  background-color: rgb(164, 255, 255);
   display: inline-block;
   text-align: center;
   margin-left: 10%;
@@ -90,7 +95,7 @@
   max-width: 1024px;
   margin: auto;
   border-radius: 20px;
-  
+
 }
 
 .newentrytable {
@@ -121,5 +126,5 @@ td {
   width: 50%;
   border-radius: 8px;
   margin: 5% 0 0 25%;
-  
+
 }

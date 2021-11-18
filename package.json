@@ -59,7 +59,11 @@
 =======
     "react-minimal-pie-chart": "^8.2.0",
     "react-router-dom": "^5.3.0",
+<<<<<<< HEAD
 >>>>>>> 5c054d14014387355a51d4d0247a278cf83d5dab
+=======
+    "rumble-charts": "^4.0.0",
+>>>>>>> 8251b46cb154181b6d14091a4910589f81d63e67
     "tone": "^14.7.77"
   }
 }
