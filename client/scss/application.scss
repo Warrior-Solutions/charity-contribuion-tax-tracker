@@ -1,3 +1,130 @@
-body{
-    background-color:red;
+body {
+    background-color:rgb(0, 0, 0);
+}
+
+.column {
+  float: left;
+  /* padding: 2px; */
+}
+
+.left {
+  width: 40%;
+  background-color: rgb(0, 0, 0);
+}
+
+.right {
+  width: 60%;
+  background-color: rgb(0, 0, 0);
+}
+
+#addBtn {
+  width: 80%;
+  height: 50px;
+  margin-left: 10%;
+  margin-top: 20px;
+}
+
+.pie-chart {
+  margin-left: 10%;
+  margin-top: 45px;
+  width: 250px;
+}
+
+.cardList {
+  width: 80%;
+  height: 800px;
+  background-color: rgb(164, 255, 255);
+  display: inline-block;
+  text-align: center;
+  margin-left: 10%;
+  margin-top: 30px;
+}
+
+.card {
+  background-color: red;
+  width: 80%;
+  height: 300px;
+  margin: 25px 0 0 10%
+}
+
+.statsContainer {
+  height: 900px;
+}
+
+#contGoal {
+  height: 150px;
+  background-color: royalblue;
+}
+
+.cont {
+  width: 42%;
+  height: 75px;
+  float: left;
+  margin: 35px 0 0 5%;
+  border: red;
+  background-color: purple;
+  text-align: center;
+}
+
+.goal {
+  width: 42%;
+  height: 75px;
+  float: right;
+  margin: 35px 5% 0 0;
+  border: red;
+  background-color: purple;
+  text-align: center;
+}
+
+.pie {
+  background-color: gray;
+  width: 90%;
+  height: 38%;
+  margin: 1px 0 0 5%;
+  margin-bottom: 50px;
+}
+
+.graph {
+  background-color: gray;
+  width: 90%;
+  height: 38%;
+  margin: 1px 0 0 5%;
+}
+
+.container {
+  max-width: 1024px;
+  margin: auto;
+  border-radius: 20px;
+
+}
+
+.newentrytable {
+  background-color: lightgray;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+th {
+  padding: 0.9em;
+  font-family: 'Cabin', sans-serif;
+  font-size: 1.3em;
+}
+
+td {
+  padding: 0.9em;
+  text-align: center;
+}
+
+#site-main {
+  margin: 6em 0;
+  display: grid;
+
+}
+
+#entrybutton {
+  height: 25px;
+  width: 50%;
+  border-radius: 8px;
+  margin: 5% 0 0 25%;
+
 }
