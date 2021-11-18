@@ -79,7 +79,7 @@ class Login extends Component {
             md={7}
             sx={{
               backgroundImage:
-                "url(https://images2.alphacoders.com/969/969165.jpg)",
+                "url(https://www.popsci.com/uploads/2019/04/30/L47LNQO7WQXDQCJXCDAJD7ZNTU.jpg)",
               backgroundColor: (t) =>
                 t.palette.mode === "light"
                   ? t.palette.grey[50]
